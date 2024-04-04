@@ -29,6 +29,7 @@ export const CONFIG = new InjectionToken<NgeExplorerConfig>('NXE_CONFIG', {
             autoRefresh: false,
             autoRefreshInterval: 10000,
             defaultView: defaultView,
+            multipleSelection: true,
         };
     },
 });

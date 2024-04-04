@@ -64,4 +64,5 @@ export interface NgeExplorerConfig {
     autoRefresh: boolean;
     autoRefreshInterval: number;
     defaultView: string;
+    multipleSelection: boolean;
 }
