@@ -3,6 +3,20 @@ import { BehaviorSubject } from 'rxjs';
 import { INode, NgeExplorerConfig, View } from './types';
 import { IconsComponent, ListComponent } from '../../public-api';
 
+export const DEFAULT_CONFIG: Partial<NgeExplorerConfig> = {
+    homeNodeName: 'Files',
+    autoRefresh: false,
+    autoRefreshInterval: 10000,
+    multipleSelection: true,
+    features: {
+        delete: true,
+        upload: true,
+        download: true,
+        rename: true,
+        createDir: true,
+    },
+};
+
 export const VIEWS = new InjectionToken<View[]>('NXE_VIEWS', {
     providedIn: 'root',
     factory: () => [
@@ -24,13 +38,7 @@ export const CONFIG = new InjectionToken<NgeExplorerConfig>('NXE_CONFIG', {
     factory: () => {
         const views = inject(VIEWS);
         const defaultView = views[0].name;
-        return {
-            homeNodeName: 'Files',
-            autoRefresh: false,
-            autoRefreshInterval: 10000,
-            defaultView: defaultView,
-            multipleSelection: true,
-        };
+        return { ...DEFAULT_CONFIG, defaultView } as NgeExplorerConfig;
     },
 });
 

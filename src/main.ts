@@ -16,15 +16,22 @@ bootstrapApplication(AppComponent, {
             provide: NAME_FUNCTION,
             useValue: (node: INode) => node.data['name'],
         },
-        // {
-        //     provide: CONFIG,
-        //     useValue: {
-        //         homeNodeName: 'Home',
-        //         autoRefresh: false,
-        //         autoRefreshInterval: 10000,
-        //         defaultView: 'Icons',
-        //         multipleSelection: false,
-        //     } as NgeExplorerConfig,
-        // },
+        {
+            provide: CONFIG,
+            useValue: {
+                homeNodeName: 'Home',
+                autoRefresh: false,
+                autoRefreshInterval: 10000,
+                defaultView: 'Icons',
+                multipleSelection: false,
+                features: {
+                    delete: false,
+                    upload: false,
+                    download: false,
+                    rename: false,
+                    createDir: false,
+                },
+            } as NgeExplorerConfig,
+        },
     ],
 });
