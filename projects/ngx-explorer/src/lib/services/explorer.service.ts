@@ -18,9 +18,9 @@ export class ExplorerService {
     private readonly root$$ = new BehaviorSubject<INode>(this.internalTree);
 
     /**
-    * An Observable that emits the currently selected nodes in the explorer.
-    * Subscribers can use this to react to changes in the selection.
-    */
+     * An Observable that emits the currently selected nodes in the explorer.
+     * Subscribers can use this to react to changes in the selection.
+     */
     public readonly selection$ = this.selectedNodes$$.asObservable();
 
     /**

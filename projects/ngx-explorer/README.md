@@ -8,4 +8,5 @@ This is a front-end implementation only. There are no services at this point.
 -   Angular 17+
 
 ## How to use this
+
 [More information can be found here](https://github.com/artemnih/ngx-explorer)
