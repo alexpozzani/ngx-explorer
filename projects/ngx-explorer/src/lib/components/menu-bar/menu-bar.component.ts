@@ -1,9 +1,9 @@
-import { Component, ElementRef, Inject, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { map, take } from 'rxjs';
-import { INode } from '../../shared/types';
+import { INode, NgeExplorerConfig } from '../../shared/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { ViewSwitcherComponent } from '../view-switcher/view-switcher.component';
-import { NAME_FUNCTION } from '../../shared/providers';
+import { CONFIG, NAME_FUNCTION } from '../../shared/providers';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -17,14 +17,19 @@ import { AsyncPipe } from '@angular/common';
 export class MenuBarComponent {
     @ViewChild('uploader', { static: true }) uploader!: ElementRef;
 
+    protected explorerService: ExplorerService = inject(ExplorerService);
+    protected getName: (node: INode) => string = inject(NAME_FUNCTION);
+    protected config: NgeExplorerConfig = inject(CONFIG);
+
+    protected featDelete = this.config.features?.delete;
+    protected featUpload = this.config.features?.upload;
+    protected featDownload = this.config.features?.download;
+    protected featRename = this.config.features?.rename;
+    protected featCreateDir = this.config.features?.createDir;
+
     protected canDownload$ = this.explorerService.selection$.pipe(map((n) => n.length === 1 && n[0].isLeaf));
     protected canDelete$ = this.explorerService.selection$.pipe(map((n) => n.length > 0));
     protected canRename$ = this.explorerService.selection$.pipe(map((n) => n.length === 1));
-
-    constructor(
-        private explorerService: ExplorerService,
-        @Inject(NAME_FUNCTION) private getName: (node: INode) => string
-    ) {}
 
     createDir() {
         const name = prompt('Enter new name');

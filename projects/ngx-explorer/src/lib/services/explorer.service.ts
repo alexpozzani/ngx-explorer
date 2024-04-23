@@ -18,9 +18,9 @@ export class ExplorerService {
     private readonly root$$ = new BehaviorSubject<INode>(this.internalTree);
 
     /**
-    * An Observable that emits the currently selected nodes in the explorer.
-    * Subscribers can use this to react to changes in the selection.
-    */
+     * An Observable that emits the currently selected nodes in the explorer.
+     * Subscribers can use this to react to changes in the selection.
+     */
     public readonly selection$ = this.selectedNodes$$.asObservable();
 
     /**
@@ -89,6 +89,10 @@ export class ExplorerService {
      * @param name The name of the new directory.
      */
     public createDir(name: string) {
+        if (this.config.features?.createDir === false) {
+            throw new Error('Create directory feature is disabled');
+        }
+
         const parent = this.openedNode$$.value;
         this.dataService.createDir(parent!.data, name).subscribe(() => {
             this.refresh();
@@ -107,6 +111,10 @@ export class ExplorerService {
      * @param name The new name for the node.
      */
     public rename(name: string) {
+        if (this.config.features?.rename === false) {
+            throw new Error('Rename feature is disabled');
+        }
+
         const nodes = this.selectedNodes$$.value;
         if (nodes.length > 1) {
             throw new Error('Multiple selection rename not supported');
@@ -125,6 +133,10 @@ export class ExplorerService {
      * Removes the currently selected nodes.
      */
     public remove() {
+        if (this.config.features?.delete === false) {
+            throw new Error('Delete feature is disabled');
+        }
+
         const selection = this.selectedNodes$$.value;
         if (selection.length === 0) {
             throw new Error('Nothing selected to remove');
@@ -141,6 +153,10 @@ export class ExplorerService {
      * @param files The files to upload.
      */
     public upload(files: FileList) {
+        if (this.config.features?.upload === false) {
+            throw new Error('Upload feature is disabled');
+        }
+
         const node = this.openedNode$$.value!;
         this.dataService.uploadFiles(node.data, files).subscribe(() => {
             this.refresh();
@@ -151,6 +167,10 @@ export class ExplorerService {
      * Downloads the currently selected file.
      */
     public download() {
+        if (this.config.features?.download === false) {
+            throw new Error('Download feature is disabled');
+        }
+
         const target = this.selectedNodes$$.value[0];
         this.dataService.downloadFile(target.data).subscribe(() => {
             this.refresh();

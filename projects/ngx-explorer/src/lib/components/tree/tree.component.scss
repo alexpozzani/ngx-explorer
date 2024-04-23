@@ -1,4 +1,4 @@
-@import "../vars.scss";
+@import '../vars.scss';
 
 $item-spacing: 10px;
 
@@ -9,6 +9,7 @@ $item-spacing: 10px;
         margin-left: 0 !important;
     }
     overflow-y: scroll;
+    user-select: none;
 }
 
 .nxe-tree-ul {

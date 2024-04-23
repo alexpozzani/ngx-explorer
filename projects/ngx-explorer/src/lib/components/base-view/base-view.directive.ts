@@ -1,7 +1,7 @@
-import { Directive, Inject, OnDestroy } from '@angular/core';
+import { Directive, OnDestroy, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { INode } from '../../shared/types';
-import { NAME_FUNCTION } from '../../shared/providers';
+import { INode, NgeExplorerConfig } from '../../shared/types';
+import { CONFIG, NAME_FUNCTION } from '../../shared/providers';
 import { ExplorerService } from '../../services/explorer.service';
 
 @Directive()
@@ -12,10 +12,11 @@ export class BaseView implements OnDestroy {
     protected subs = new Subscription();
     protected shiftSelectionStartId: number | undefined;
 
-    constructor(
-        protected explorerService: ExplorerService,
-        @Inject(NAME_FUNCTION) protected getName: (node: INode) => string
-    ) {
+    protected explorerService: ExplorerService = inject(ExplorerService);
+    protected config: NgeExplorerConfig = inject(CONFIG);
+    protected getName: (node: INode) => string = inject(NAME_FUNCTION);
+
+    constructor() {
         this.subs.add(
             this.explorerService.openedDir$.subscribe((nodes) => {
                 this.items = nodes ? nodes.children : [];
@@ -36,7 +37,7 @@ export class BaseView implements OnDestroy {
         const shiftKeyPressed = event.shiftKey;
         const metaKeyPressed = event.metaKey || event.ctrlKey;
 
-        if (shiftKeyPressed) {
+        if (this.config.multipleSelection && shiftKeyPressed) {
             if (this.selection.size === 0) {
                 this.selection.add(item.id);
                 this.shiftSelectionStartId = item.id;
@@ -53,7 +54,7 @@ export class BaseView implements OnDestroy {
                 }
             }
         } else {
-            if (metaKeyPressed) {
+            if (this.config.multipleSelection && metaKeyPressed) {
                 if (this.selection.has(item.id)) {
                     this.selection.delete(item.id);
                 } else {

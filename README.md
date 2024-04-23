@@ -86,7 +86,9 @@ See list of available components [here](docs/COMPONENTS.md)
 ```
 
 ## APIs
+
 All the communication with the server is done through the `ExplorerService` APIs. It provides methods for fetching data, creating, renaming, deleting files and directories.
+
 ```Typescript
 import { ExplorerService } from 'ngx-explorer';
 ...

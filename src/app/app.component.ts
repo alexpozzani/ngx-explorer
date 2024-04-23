@@ -11,9 +11,9 @@ import { map } from 'rxjs';
     imports: [ExplorerComponent, ContentComponent, TreeComponent, AsyncPipe],
 })
 export class AppComponent {
-    protected openedDir$ = this.ex.openedDir$.pipe(map(p => p?.data['name']));
-    protected selectionLength$ = this.ex.selection$.pipe(map(s => s.length));
-    protected rootLen$ = this.ex.root$.pipe(map(r => r.children.length));
+    protected openedDir$ = this.ex.openedDir$.pipe(map((p) => p?.data['name']));
+    protected selectionLength$ = this.ex.selection$.pipe(map((s) => s.length));
+    protected rootLen$ = this.ex.root$.pipe(map((r) => r.children.length));
 
     constructor(private ex: ExplorerService) {}
 

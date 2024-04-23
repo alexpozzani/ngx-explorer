@@ -61,7 +61,15 @@ export interface View {
 
 export interface NgeExplorerConfig {
     homeNodeName: string;
-    autoRefresh: boolean;
-    autoRefreshInterval: number;
+    autoRefresh?: boolean;
+    autoRefreshInterval?: number;
     defaultView: string;
+    multipleSelection?: boolean;
+    features?: {
+        delete?: boolean;
+        upload?: boolean;
+        download?: boolean;
+        rename?: boolean;
+        createDir?: boolean;
+    };
 }
