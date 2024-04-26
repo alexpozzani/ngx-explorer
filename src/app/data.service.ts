@@ -1,7 +1,7 @@
 import { forkJoin, Observable, of, Subscriber } from 'rxjs';
 import { Data, IDataService } from 'ngx-explorer';
 
-interface MyExplorerEntity extends Data {
+export interface MyExplorerEntity extends Data {
     id: number;
     name: string;
     path: string;

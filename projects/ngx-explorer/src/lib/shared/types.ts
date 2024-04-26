@@ -7,6 +7,7 @@ export interface Data {
 
 export interface INode {
     id: number;
+    name: string;
     parentId: number;
     data: Data;
     isLeaf: boolean;
@@ -61,8 +62,6 @@ export interface View {
 
 export interface NgeExplorerConfig {
     homeNodeName: string;
-    autoRefresh?: boolean;
-    autoRefreshInterval?: number;
     defaultView: string;
     multipleSelection?: boolean;
     features?: {

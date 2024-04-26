@@ -1,12 +1,10 @@
 import { InjectionToken, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { INode, NgeExplorerConfig, View } from './types';
+import { Data, NgeExplorerConfig, View } from './types';
 import { IconsComponent, ListComponent } from '../../public-api';
 
 export const DEFAULT_CONFIG: Partial<NgeExplorerConfig> = {
     homeNodeName: 'Files',
-    autoRefresh: false,
-    autoRefreshInterval: 10000,
     multipleSelection: true,
     features: {
         delete: true,
@@ -52,7 +50,7 @@ export const CURRENT_VIEW = new InjectionToken<BehaviorSubject<string>>('NXE_CUR
     },
 });
 
-export const NAME_FUNCTION = new InjectionToken<(node: INode) => string>('NXE_NAME_FUNCTION', {
+export const NAME_FUNCTION = new InjectionToken<(data: Data) => string>('NXE_NAME_FUNCTION', {
     providedIn: 'root',
-    factory: () => (node: INode) => node.data as unknown as string,
+    factory: () => (data: Data) => data as unknown as string,
 });

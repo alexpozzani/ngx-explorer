@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation } from '@
 import { map } from 'rxjs';
 import { INode, NgeExplorerConfig } from '../../shared/types';
 import { ExplorerService } from '../../services/explorer.service';
-import { CONFIG, NAME_FUNCTION } from '../../shared/providers';
+import { CONFIG } from '../../shared/providers';
 import { AsyncPipe } from '@angular/common';
 
 interface Breadcrumb {
@@ -28,17 +28,16 @@ export class BreadcrumbsComponent {
             const pieces = [] as Breadcrumb[];
             let currentNode = n;
             while (currentNode.parentId) {
-                pieces.unshift({ name: this.getName(currentNode) || this.config.homeNodeName || '', node: currentNode });
+                pieces.unshift({ name: currentNode.name || this.config.homeNodeName || '', node: currentNode });
                 currentNode = this.explorerService.getNode(currentNode.parentId);
             }
-            pieces.unshift({ name: this.getName(currentNode) || this.config.homeNodeName || '', node: currentNode });
+            pieces.unshift({ name: currentNode.name || this.config.homeNodeName || '', node: currentNode });
             return pieces;
         })
     );
 
     constructor(
         private explorerService: ExplorerService,
-        @Inject(NAME_FUNCTION) private getName: (node: INode) => string,
         @Inject(CONFIG) private config: NgeExplorerConfig
     ) {}
 

@@ -1,10 +1,9 @@
-import { Component, Inject, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ExplorerService } from '../../services/explorer.service';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { INode } from '../../shared/types';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { NAME_FUNCTION } from '../../shared/providers';
 
 @Component({
     selector: 'nxe-tree',
@@ -20,10 +19,7 @@ export class TreeComponent implements OnDestroy {
     protected selectedId = -1;
     private sub = new Subscription();
 
-    constructor(
-        private explorerService: ExplorerService,
-        @Inject(NAME_FUNCTION) protected getName: (node: INode) => string
-    ) {
+    constructor(private explorerService: ExplorerService) {
         this.sub.add(
             this.explorerService.root$.pipe(filter((x) => !!x)).subscribe((root) => {
                 this.expnadedIds.add(root.id); // always expand root
@@ -57,9 +53,10 @@ export class TreeComponent implements OnDestroy {
     }
 
     private buildTree(node: INode): INode {
-        const { id, parentId, data, isLeaf, children } = node;
+        const { id, parentId, name, data, isLeaf, children } = node;
         const treeNode = {
             id,
+            name: name,
             parentId,
             data,
             isLeaf,
