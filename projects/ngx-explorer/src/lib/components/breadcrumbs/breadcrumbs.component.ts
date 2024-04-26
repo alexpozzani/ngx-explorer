@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { map } from 'rxjs';
-import { INode, NgeExplorerConfig } from '../../shared/types';
+import { INode } from '../../shared/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { CONFIG } from '../../shared/providers';
 import { AsyncPipe } from '@angular/common';
@@ -20,6 +20,9 @@ interface Breadcrumb {
     imports: [AsyncPipe],
 })
 export class BreadcrumbsComponent {
+    private explorerService = inject(ExplorerService);
+    private config = inject(CONFIG);
+
     public breadcrumbs$ = this.explorerService.openedDir$.pipe(
         map((n) => {
             if (!n) {
@@ -35,11 +38,6 @@ export class BreadcrumbsComponent {
             return pieces;
         })
     );
-
-    constructor(
-        private explorerService: ExplorerService,
-        @Inject(CONFIG) private config: NgeExplorerConfig
-    ) {}
 
     public click(crumb: Breadcrumb) {
         this.explorerService.openNode(crumb.node.id);

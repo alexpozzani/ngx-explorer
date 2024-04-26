@@ -1,6 +1,4 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { View } from '../../shared/types';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { CURRENT_VIEW, VIEWS } from '../../shared/providers';
 
 @Component({
@@ -11,10 +9,8 @@ import { CURRENT_VIEW, VIEWS } from '../../shared/providers';
     standalone: true,
 })
 export class ViewSwitcherComponent {
-    constructor(
-        @Inject(CURRENT_VIEW) private currentView: BehaviorSubject<string>,
-        @Inject(VIEWS) protected views: View[]
-    ) {}
+    private currentView = inject(CURRENT_VIEW);
+    protected views = inject(VIEWS);
 
     setView(view: string) {
         this.currentView.next(view);
