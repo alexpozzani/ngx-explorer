@@ -4,7 +4,7 @@ import { tap } from 'rxjs/operators';
 import { INode, Dictionary } from '../shared/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
-import { CONFIG, NAME_FUNCTION } from '../shared/providers';
+import { CONFIG, VIEWS } from '../shared/providers';
 
 @Injectable({
     providedIn: 'root',
@@ -12,13 +12,14 @@ import { CONFIG, NAME_FUNCTION } from '../shared/providers';
 export class ExplorerService {
     private dataService = inject(DataService);
     private config = inject(CONFIG);
-    private getName = inject(NAME_FUNCTION);
+    private views = inject(VIEWS);
     private internalTree = Utils.createNode(this.config.homeNodeName || 'Home');
     private flatPointers: Dictionary<INode> = { [this.internalTree.id]: this.internalTree };
 
     private readonly selectedNodes$$ = new BehaviorSubject<INode[]>([]);
     private readonly openedNode$$ = new BehaviorSubject<INode | undefined>(undefined);
     private readonly root$$ = new BehaviorSubject<INode>(this.internalTree);
+    public readonly currentView$ = new BehaviorSubject<string>(this.config.defaultView || this.views[0].name);
 
     /**
      * An Observable that emits the currently selected nodes in the explorer.
@@ -184,8 +185,8 @@ export class ExplorerService {
 
         return this.dataService.getContent(parent.data).pipe(
             tap(({ files, dirs }) => {
-                const newDirNodes = dirs.map((data) => Utils.createNode(this.getName(data), id, false, data));
-                const newFileNodes = files.map((data) => Utils.createNode(this.getName(data), id, true, data));
+                const newDirNodes = dirs.map((data) => Utils.createNode(this.dataService.getName(data), id, false, data));
+                const newFileNodes = files.map((data) => Utils.createNode(this.dataService.getName(data), id, true, data));
                 const newChildren = newDirNodes.concat(newFileNodes);
                 const added = newChildren.filter((c) => !parent.children.find((o) => Utils.compareObjects(o.data, c.data)));
                 const removed = parent.children.filter((o) => !newChildren.find((c) => Utils.compareObjects(o.data, c.data)));

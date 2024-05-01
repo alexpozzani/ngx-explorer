@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
-import { CURRENT_VIEW, VIEWS } from '../../shared/providers';
+import { VIEWS } from '../../shared/providers';
+import { ExplorerService } from '../../services/explorer.service';
 
 @Component({
     selector: 'nxe-view-switcher',
@@ -9,10 +10,10 @@ import { CURRENT_VIEW, VIEWS } from '../../shared/providers';
     standalone: true,
 })
 export class ViewSwitcherComponent {
-    private currentView = inject(CURRENT_VIEW);
+    private explorerService = inject(ExplorerService);
     protected views = inject(VIEWS);
 
     setView(view: string) {
-        this.currentView.next(view);
+        this.explorerService.currentView$.next(view);
     }
 }

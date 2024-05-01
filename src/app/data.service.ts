@@ -149,4 +149,8 @@ export class ExampleDataService implements IDataService<MyExplorerEntity> {
         }
         return of({}) as Observable<any>;
     }
+
+    getName(data: MyExplorerEntity) {
+        return data.name;
+    }
 }
