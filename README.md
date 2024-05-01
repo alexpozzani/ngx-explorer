@@ -36,25 +36,6 @@ export class MyDataService implements IDataService<MyDataType> {
 }
 ```
 
-`MyDataType` can be any type of data that reflects the file or directory metadata. It can be as simple as `string` or an object with properties.
-`NAME_FUNCTION` must be provided if `MyDataType` is an object. It is a function that returns the name of the file or directory, to be displayed in the UI.
-
-Example:
-
-```Typescript
-export interface MyDataType {
-    name: string;
-    path: string;
-    createdOn: Date;
-}
-
-// In this case, the name function will be:
-{
-    provide: NAME_FUNCTION,
-    useValue: (node: INode) => node.data['name'],
-}
-```
-
 And provide the implementation:
 
 ```TypeScript

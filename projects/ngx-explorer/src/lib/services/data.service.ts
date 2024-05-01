@@ -12,4 +12,5 @@ export abstract class DataService implements IDataService<Data> {
     abstract delete(data: Data[]): Observable<Data>;
     abstract uploadFiles(data: Data, files: FileList): Observable<Data>;
     abstract downloadFile(data: Data): Observable<Data>;
+    abstract getName(data: Data): string;
 }

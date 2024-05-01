@@ -3,10 +3,11 @@ import { INode } from './types';
 export class Utils {
     private static id = 0;
 
-    static createNode(parentId = 0, isLeaf = false, data: unknown = {}) {
+    static createNode(name: string, parentId = 0, isLeaf = false, data: unknown = {}) {
         const id = ++this.id;
         return {
             id,
+            name,
             parentId,
             data,
             isLeaf,

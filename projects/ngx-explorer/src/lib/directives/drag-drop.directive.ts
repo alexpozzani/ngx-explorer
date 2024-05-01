@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
+import { Directive, EventEmitter, HostListener, Output, inject } from '@angular/core';
 import { ExplorerService } from '../services/explorer.service';
 
 @Directive({
@@ -6,13 +6,12 @@ import { ExplorerService } from '../services/explorer.service';
     standalone: true,
 })
 export class DragDropDirective {
+    private explorerService = inject(ExplorerService);
     @Output() dragEnter = new EventEmitter<any>();
     @Output() dragOver = new EventEmitter<any>();
     @Output() dragLeave = new EventEmitter<any>();
     @Output() dragDrop = new EventEmitter<any>();
     @Output() dragging = new EventEmitter<boolean>();
-
-    constructor(private explorerService: ExplorerService) {}
 
     @HostListener('dragenter', ['$event'])
     public onDragEnter(event: DragEvent) {

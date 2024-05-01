@@ -1,21 +1,25 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { INode, Dictionary, NgeExplorerConfig } from '../shared/types';
+import { INode, Dictionary } from '../shared/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
-import { CONFIG } from '../shared/providers';
+import { CONFIG, VIEWS } from '../shared/providers';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ExplorerService {
-    private internalTree = Utils.createNode();
+    private dataService = inject(DataService);
+    private config = inject(CONFIG);
+    private views = inject(VIEWS);
+    private internalTree = Utils.createNode(this.config.homeNodeName || 'Home');
     private flatPointers: Dictionary<INode> = { [this.internalTree.id]: this.internalTree };
 
     private readonly selectedNodes$$ = new BehaviorSubject<INode[]>([]);
     private readonly openedNode$$ = new BehaviorSubject<INode | undefined>(undefined);
     private readonly root$$ = new BehaviorSubject<INode>(this.internalTree);
+    public readonly currentView$ = new BehaviorSubject<string>(this.config.defaultView || this.views[0].name);
 
     /**
      * An Observable that emits the currently selected nodes in the explorer.
@@ -35,17 +39,8 @@ export class ExplorerService {
      */
     public readonly root$ = this.root$$.asObservable();
 
-    constructor(
-        private dataService: DataService,
-        @Inject(CONFIG) private config: NgeExplorerConfig
-    ) {
+    constructor() {
         this.openNode(this.internalTree.id);
-
-        if (this.config.autoRefresh) {
-            setInterval(() => {
-                this.refresh();
-            }, this.config.autoRefreshInterval);
-        }
     }
 
     /**
@@ -190,8 +185,8 @@ export class ExplorerService {
 
         return this.dataService.getContent(parent.data).pipe(
             tap(({ files, dirs }) => {
-                const newDirNodes = dirs.map((data) => Utils.createNode(id, false, data));
-                const newFileNodes = files.map((data) => Utils.createNode(id, true, data));
+                const newDirNodes = dirs.map((data) => Utils.createNode(this.dataService.getName(data), id, false, data));
+                const newFileNodes = files.map((data) => Utils.createNode(this.dataService.getName(data), id, true, data));
                 const newChildren = newDirNodes.concat(newFileNodes);
                 const added = newChildren.filter((c) => !parent.children.find((o) => Utils.compareObjects(o.data, c.data)));
                 const removed = parent.children.filter((o) => !newChildren.find((c) => Utils.compareObjects(o.data, c.data)));

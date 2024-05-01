@@ -1,7 +1,7 @@
 import { Directive, OnDestroy, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { INode, NgeExplorerConfig } from '../../shared/types';
-import { CONFIG, NAME_FUNCTION } from '../../shared/providers';
+import { CONFIG } from '../../shared/providers';
 import { ExplorerService } from '../../services/explorer.service';
 
 @Directive()
@@ -14,7 +14,6 @@ export class BaseView implements OnDestroy {
 
     protected explorerService: ExplorerService = inject(ExplorerService);
     protected config: NgeExplorerConfig = inject(CONFIG);
-    protected getName: (node: INode) => string = inject(NAME_FUNCTION);
 
     constructor() {
         this.subs.add(

@@ -2,7 +2,7 @@ import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { CONFIG, DataService, INode, NAME_FUNCTION, NgeExplorerConfig } from 'ngx-explorer';
+import { CONFIG, DataService, NgeExplorerConfig } from 'ngx-explorer';
 import { ExampleDataService } from './app/data.service';
 
 if (environment.production) {
@@ -13,15 +13,9 @@ bootstrapApplication(AppComponent, {
     providers: [
         { provide: DataService, useClass: ExampleDataService },
         {
-            provide: NAME_FUNCTION,
-            useValue: (node: INode) => node.data['name'],
-        },
-        {
             provide: CONFIG,
             useValue: {
                 homeNodeName: 'Home',
-                autoRefresh: false,
-                autoRefreshInterval: 10000,
                 defaultView: 'Icons',
                 multipleSelection: false,
                 features: {

@@ -1,9 +1,9 @@
 import { Component, ElementRef, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { map, take } from 'rxjs';
-import { INode, NgeExplorerConfig } from '../../shared/types';
+import { NgeExplorerConfig } from '../../shared/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { ViewSwitcherComponent } from '../view-switcher/view-switcher.component';
-import { CONFIG, NAME_FUNCTION } from '../../shared/providers';
+import { CONFIG } from '../../shared/providers';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -18,7 +18,6 @@ export class MenuBarComponent {
     @ViewChild('uploader', { static: true }) uploader!: ElementRef;
 
     protected explorerService: ExplorerService = inject(ExplorerService);
-    protected getName: (node: INode) => string = inject(NAME_FUNCTION);
     protected config: NgeExplorerConfig = inject(CONFIG);
 
     protected featDelete = this.config.features?.delete;
@@ -49,7 +48,7 @@ export class MenuBarComponent {
                 map((n) => n[0])
             )
             .subscribe((node) => {
-                const oldName = this.getName(node);
+                const oldName = node.name;
                 const newName = prompt('Enter new name', oldName);
                 if (newName) {
                     this.explorerService.rename(newName);
