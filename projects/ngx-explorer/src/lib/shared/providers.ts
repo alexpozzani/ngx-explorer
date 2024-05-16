@@ -1,5 +1,5 @@
 import { InjectionToken, inject } from '@angular/core';
-import { Data, NgeExplorerConfig, View } from './types';
+import { NgeExplorerConfig, View } from './types';
 import { IconsComponent, ListComponent } from '../../public-api';
 
 export const DEFAULT_CONFIG: Partial<NgeExplorerConfig> = {

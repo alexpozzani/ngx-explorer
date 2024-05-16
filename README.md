@@ -74,6 +74,11 @@ All the communication with the server is done through the `ExplorerService` APIs
 import { ExplorerService } from 'ngx-explorer';
 ...
 constructor(private explorerService: ExplorerService) {
+
+    // start explorer by loading root level data
+    explorerService.openNode();
+
+    // subscribe to tree updates
     explorerService.root$.subscribe((root) => {
         console.log('Root:', root);
     });

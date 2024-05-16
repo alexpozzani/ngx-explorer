@@ -16,14 +16,12 @@ import { NgClass, NgTemplateOutlet } from '@angular/common';
 export class TreeComponent implements OnDestroy {
     private explorerService = inject(ExplorerService);
     protected treeNodes: INode[] = [];
-    protected expnadedIds = new Set<number>();
     protected selectedId = -1;
     private sub = new Subscription();
 
     constructor() {
         this.sub.add(
             this.explorerService.root$.pipe(filter((x) => !!x)).subscribe((root) => {
-                this.expnadedIds.add(root.id); // always expand root
                 this.treeNodes = this.buildTree(root).children;
             })
         );
@@ -40,13 +38,16 @@ export class TreeComponent implements OnDestroy {
         this.explorerService.openNode(node.id);
     }
 
-    expand(node: INode) {
-        this.expnadedIds.add(node.id);
+    expand(event: Event, node: INode) {
+        event.preventDefault();
+        event.stopPropagation();
         this.explorerService.expand(node.id);
     }
 
-    collapse(node: INode) {
-        this.expnadedIds.delete(node.id);
+    collapse(event: Event, node: INode) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.explorerService.collapse(node.id);
     }
 
     ngOnDestroy(): void {
@@ -54,17 +55,17 @@ export class TreeComponent implements OnDestroy {
     }
 
     private buildTree(node: INode): INode {
-        const { id, parentId, name, data, isLeaf, children } = node;
+        const { id, name, parentId, data, isLeaf, children, expanded } = node;
         const treeNode = {
             id,
-            name: name,
+            name,
             parentId,
             data,
             isLeaf,
-            children: [],
+            expanded,
         } as INode;
 
-        if (this.expnadedIds.has(node.id)) {
+        if (node.expanded) {
             treeNode.children = children.filter((x) => !x.isLeaf).map((x) => this.buildTree(x));
         }
 

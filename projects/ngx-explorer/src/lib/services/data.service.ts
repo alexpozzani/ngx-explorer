@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IDataService, Data } from '../shared/types';
+import { IDataService, Data, DataNode } from '../shared/types';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,4 +13,5 @@ export abstract class DataService implements IDataService<Data> {
     abstract uploadFiles(data: Data, files: FileList): Observable<Data>;
     abstract downloadFile(data: Data): Observable<Data>;
     abstract getName(data: Data): string;
+    abstract openTree(data: Data): Observable<Array<DataNode<Data>>>;
 }

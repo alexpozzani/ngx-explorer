@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { INode, Dictionary } from '../shared/types';
+import { INode, Dictionary, Data } from '../shared/types';
 import { Utils } from '../shared/utils';
 import { DataService } from './data.service';
 import { CONFIG, VIEWS } from '../shared/providers';
@@ -13,7 +13,7 @@ export class ExplorerService {
     private dataService = inject(DataService);
     private config = inject(CONFIG);
     private views = inject(VIEWS);
-    private internalTree = Utils.createNode(this.config.homeNodeName || 'Home');
+    private internalTree = Utils.createNode(this.config.homeNodeName || 'Home', 0, false, {}, true);
     private flatPointers: Dictionary<INode> = { [this.internalTree.id]: this.internalTree };
 
     private readonly selectedNodes$$ = new BehaviorSubject<INode[]>([]);
@@ -39,10 +39,6 @@ export class ExplorerService {
      */
     public readonly root$ = this.root$$.asObservable();
 
-    constructor() {
-        this.openNode(this.internalTree.id);
-    }
-
     /**
      * Returns the node with the given id.
      * @param id The id of the node to retrieve.
@@ -60,12 +56,16 @@ export class ExplorerService {
     }
 
     /**
-     * Opens the node with the given id.
+     * Opens the node with the given id. If no id is provided, the root node is opened.
      * @param id The id of the node to open.
      */
-    public openNode(id: number) {
+    public openNode(id?: number) {
+        if (!id) {
+            id = this.internalTree.id;
+        }
+
         this.getContent(id).subscribe(() => {
-            const parent = this.flatPointers[id];
+            const parent = this.flatPointers[id!];
             this.openedNode$$.next(parent);
             this.selectedNodes$$.next([]);
         });
@@ -76,7 +76,15 @@ export class ExplorerService {
      * @param id The id of the node to expand.
      */
     public expand(id: number) {
+        const parent = this.flatPointers[id];
+        parent.expanded = true;
         this.getContent(id).subscribe();
+    }
+
+    public collapse(id: number) {
+        const parent = this.flatPointers[id];
+        parent.expanded = false;
+        this.root$$.next(this.internalTree);
     }
 
     /**
@@ -169,6 +177,42 @@ export class ExplorerService {
         const target = this.selectedNodes$$.value[0];
         this.dataService.downloadFile(target.data).subscribe(() => {
             this.refresh();
+        });
+    }
+
+    /**
+     * Open node and get all parent nodes
+     * Ideal for opening a previously opened node by value
+     */
+    public openTree(data: Data) {
+        this.dataService.openTree(data).subscribe((dataNodes) => {
+            const queue = [
+                {
+                    parent: this.internalTree,
+                    children: dataNodes,
+                },
+            ];
+
+            let lastParent = this.internalTree;
+            while (queue.length > 0) {
+                const { parent, children } = queue.shift()!;
+                lastParent = parent;
+                children.forEach((child) => {
+                    const node = Utils.createNode(this.dataService.getName(child.data), parent.id, child.isLeaf, child.data);
+                    parent.children.push(node);
+                    this.flatPointers[node.id] = node;
+                    if (!node.isLeaf && child.children && child.children.length > 0) {
+                        parent.expanded = true;
+                        queue.push({
+                            parent: node,
+                            children: child.children,
+                        });
+                    }
+                });
+            }
+
+            this.openedNode$$.next(lastParent);
+            this.selectedNodes$$.next([]);
         });
     }
 

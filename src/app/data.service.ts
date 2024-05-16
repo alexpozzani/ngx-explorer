@@ -1,5 +1,5 @@
-import { forkJoin, Observable, of, Subscriber } from 'rxjs';
-import { Data, IDataService } from 'ngx-explorer';
+import { forkJoin, map, Observable, of, Subscriber } from 'rxjs';
+import { Data, IDataService, DataNode } from 'ngx-explorer';
 
 export interface MyExplorerEntity extends Data {
     id: number;
@@ -9,49 +9,35 @@ export interface MyExplorerEntity extends Data {
 }
 
 let MOCK_DIRS = [
-    { id: 1, name: 'Music', path: 'music' },
-    { id: 2, name: 'Movies', path: 'movies' },
-    { id: 3, name: 'Books', path: 'books' },
-    { id: 4, name: 'Games', path: 'games' },
-    { id: 5, name: 'Rock', path: 'music/rock' },
-    { id: 6, name: 'Jazz', path: 'music/jazz' },
-    { id: 11, name: 'Very Long Name to display overflow', path: 'long' },
+    { id: 1, name: 'Music', path: '/' },
+    { id: 2, name: 'Movies', path: '/' },
+    { id: 3, name: 'Books', path: '/' },
+    { id: 4, name: 'Games', path: '/' },
+    { id: 5, name: 'Rock', path: '/Music/' },
+    { id: 6, name: 'Jazz', path: '/Music/' },
+    { id: 11, name: 'Very Long Name to display overflow', path: '/' },
 
-    { id: 7, name: 'Classical', path: 'music/classical' },
-    { id: 15, name: 'Aerosmith', path: 'music/rock/aerosmith' },
-    { id: 16, name: 'AC/DC', path: 'music/rock/acdc' },
-    { id: 17, name: 'Led Zeppelin', path: 'music/rock/ledzeppelin' },
-    { id: 18, name: 'The Beatles', path: 'music/rock/thebeatles' },
+    { id: 7, name: 'Classical', path: '/Music/' },
+    { id: 15, name: 'Aerosmith', path: '/Music/Rock/' },
+    { id: 17, name: 'Led Zeppelin', path: '/Music/Rock/' },
+    { id: 18, name: 'The Beatles', path: '/Music/Rock/' },
 ] as MyExplorerEntity[];
 
 let MOCK_FILES = [
-    { id: 1312, name: 'notes.txt', path: '', content: 'hi, this is an example' },
-    { id: 1212, name: '2.txt', path: '', content: 'hi, this is an example' },
-    { id: 28, name: 'Thriller.txt', path: 'music/rock/thebeatles/thriller', content: 'hi, this is an example' },
-    { id: 29, name: 'Back in the U.S.S.R.txt', path: 'music/rock/thebeatles', content: 'hi, this is an example' },
-    { id: 30, name: 'All You Need Is Love.txt', path: 'music/rock/thebeatles', content: 'hi, this is an example' },
-    { id: 31, name: 'Hey Jude.txt', path: 'music/rock/ledzeppelin/heyjude', content: 'hi, this is an example' },
-    { id: 32, name: 'Rock And Roll All Nite.txt', path: 'music/rock/ledzeppelin/rockandrollallnight', content: 'hi, this is an example' },
+    { id: 1312, name: 'notes.txt', path: '/', content: 'This is a note' },
+    { id: 1212, name: '2.txt', path: '/', content: 'This is another file' },
+    { id: 29, name: 'Back in the U.S.S.R.txt', path: '/Music/Rock/The Beatles/', content: 'This is a Beatles song' },
+    { id: 30, name: 'All You Need Is Love.txt', path: '/Music/Rock/The Beatles/', content: 'This is another Beatles song' },
+    { id: 31, name: 'Hey Jude.txt', path: '/Music/Rock/The Beatles/', content: 'This is yet another Beatles song' },
+    { id: 32, name: 'Dream On.txt', path: '/Music/Rock/Aerosmith/', content: 'This is an Aerosmith song' },
+    { id: 33, name: 'Sweet Emotion.txt', path: '/Music/Rock/Aerosmith/', content: 'This is another Aerosmith song' },
+    { id: 34, name: 'Walk This Way.txt', path: '/Music/Rock/Aerosmith/', content: 'This is yet another Aerosmith song' },
+    { id: 35, name: 'Stairway to Heaven.txt', path: '/Music/Rock/Led Zeppelin/', content: 'This is a Led Zeppelin song' },
 ] as MyExplorerEntity[];
 
 export class ExampleDataService implements IDataService<MyExplorerEntity> {
     private id = 0;
     private folderId = 1000;
-
-    constructor() {
-        for (let i = 0; i < 140; i++) {
-            const name = 'Folder ' + i;
-            this.createDir({ id: 0, name: '', path: '', content: '' }, name).subscribe();
-        }
-
-        const dt = new DataTransfer();
-        for (let i = 0; i < 200; i++) {
-            const name = 'File ' + i + '.txt';
-            const file = new File([''], name);
-            dt.items.add(file);
-        }
-        this.uploadFiles({ id: 3, name: 'Books', path: 'books', content: '' }, dt.files).subscribe();
-    }
 
     downloadFile(data: MyExplorerEntity): Observable<any> {
         const file = MOCK_FILES.find((f) => f.id === data.id);
@@ -117,22 +103,11 @@ export class ExampleDataService implements IDataService<MyExplorerEntity> {
     }
 
     getContent(data: MyExplorerEntity) {
-        const folderPath = data.path || '';
-
-        const dirs = MOCK_DIRS.filter((f) => {
-            const paths = f.path.split('/');
-            paths.pop();
-            const filteredPath = paths.join('/');
-            return filteredPath === folderPath;
-        });
-
-        const files = MOCK_FILES.filter((f) => {
-            const paths = f.path.split('/');
-            paths.pop();
-            const filteredPath = paths.join('/');
-            return filteredPath === folderPath;
-        });
-
+        const folderPath = data.path || '/';
+        const name = data.name ? data.name + '/' : '';
+        const fullPath = folderPath + name;
+        const dirs = MOCK_DIRS.filter((f) => f.path === fullPath);
+        const files = MOCK_FILES.filter((f) => f.path === fullPath);
         return of({ files, dirs });
     }
 
@@ -152,5 +127,44 @@ export class ExampleDataService implements IDataService<MyExplorerEntity> {
 
     getName(data: MyExplorerEntity) {
         return data.name;
+    }
+
+    openTree(data: MyExplorerEntity): Observable<Array<DataNode<MyExplorerEntity>>> {
+        const fullPath = data.path + data.name + '/';
+        const paths = fullPath.split('/').slice(0, -1);
+        const parentPaths = [] as string[];
+        while (paths.length > 0) {
+            const path = paths.join('/') + '/';
+            parentPaths.unshift(path);
+            paths.pop();
+        }
+
+        const observables = parentPaths.map((path) => {
+            const dirs = MOCK_DIRS.filter((f) => f.path === path);
+            const files = MOCK_FILES.filter((f) => f.path === path);
+            const nodes = dirs.concat(files);
+            return of(nodes);
+        });
+
+        return forkJoin(observables).pipe(
+            map((dataNodesLevels) => {
+                const trees = [] as Array<DataNode<MyExplorerEntity>>;
+                let parent = trees;
+                parentPaths.shift(); // remove the first path, it's the root
+
+                dataNodesLevels.forEach((dataNodes, index) => {
+                    const childrenNodes = dataNodes.map((data) => ({
+                        data,
+                        children: [],
+                        isLeaf: !!data.content,
+                    }));
+                    parent.push(...childrenNodes);
+                    const parentPath = parentPaths[index];
+                    const nextParent = childrenNodes.find((n) => parentPath === n.data.path + n.data.name + '/');
+                    parent = nextParent ? nextParent.children : [];
+                });
+                return trees;
+            })
+        );
     }
 }
