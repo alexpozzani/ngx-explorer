@@ -19,6 +19,7 @@ export class AppComponent {
     title = 'explorer-app';
 
     constructor() {
-        this.explorerService.openTree({ id: 15, name: 'Aerosmith', path: '/Music/Rock/' });
+        // this.explorerService.openTree({ id: 15, name: 'Aerosmith', path: '/Music/Rock/' });
+        this.explorerService.openNode();
     }
 }

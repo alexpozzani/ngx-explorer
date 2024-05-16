@@ -1,24 +1,30 @@
 <div class="nxe-tree">
-    <ng-container *ngTemplateOutlet="tree; context: { nodes: treeNodes }"> </ng-container>
+    @if (tree$ | async; as tree) {
+        <ng-container *ngTemplateOutlet="treeTmp; context: { nodes: tree }"> </ng-container>
+    }
 </div>
 
-<ng-template #tree let-nodes="nodes">
+<ng-template #treeTmp let-nodes="nodes">
     @if (nodes && nodes.length > 0) {
         <ul class="nxe-tree-ul">
             @for (node of nodes; track $index) {
-                <li>
-                    <div class="item" (click)="open(node)" [ngClass]="{ selected: selectedId === node.id }">
-                        @if (!node.expanded) {
-                            <div class="chevron" (click)="expand($event, node)"><i class="nxe-angle-right" aria-hidden="true"></i></div>
-                        } @else {
-                            <div class="chevron" (click)="collapse($event, node)"><i class="nxe-angle-down" aria-hidden="true"></i></div>
-                        }
-                        <div class="dir-icon"><i class="nxe-folder" aria-hidden="true"></i></div>
-                        <div class="dir-name" [innerText]="node.name"></div>
-                    </div>
+                @if (!node.isLeaf) {
+                    <li>
+                        <div class="item" (click)="open(node)" [ngClass]="{ selected: (selectedId$ | async) === node.id }">
+                            @if (!node.expanded) {
+                                <div class="chevron" (click)="expand($event, node)"><i class="nxe-angle-right" aria-hidden="true"></i></div>
+                            } @else {
+                                <div class="chevron" (click)="collapse($event, node)">
+                                    <i class="nxe-angle-down" aria-hidden="true"></i>
+                                </div>
+                            }
+                            <div class="dir-icon"><i class="nxe-folder" aria-hidden="true"></i></div>
+                            <div class="dir-name" [innerText]="node.name"></div>
+                        </div>
 
-                    <ng-container *ngTemplateOutlet="tree; context: { nodes: node.children }"> </ng-container>
-                </li>
+                        <ng-container *ngTemplateOutlet="treeTmp; context: { nodes: node.children }"> </ng-container>
+                    </li>
+                }
             }
         </ul>
     }
