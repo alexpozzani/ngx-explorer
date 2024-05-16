@@ -11,11 +11,18 @@ export interface INode {
     parentId: number;
     data: Data;
     isLeaf: boolean;
+    expanded: boolean;
     children: INode[];
 }
 
 export interface Dictionary<T> {
     [Key: string]: T;
+}
+
+export interface DataNode<T> {
+    data: T;
+    isLeaf: boolean;
+    children: DataNode<T>[];
 }
 
 export interface IDataService<T extends Data> {
@@ -48,7 +55,12 @@ export interface IDataService<T extends Data> {
      * Download the given file
      */
     downloadFile(target: T): Observable<T>;
-    // TODO multple download. should be configurable in settings
+
+    /**
+     * Get all parent directories of the given directory, and their children
+     */
+    openTree(data: T): Observable<Array<DataNode<T>>>;
+
     // move(from to) // TODO: on/off in settings
     // copyPaste(from to) // TODO: on/off in settings
     // cutPaste(from to) // TODO: on/off in settings

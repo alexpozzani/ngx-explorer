@@ -11,10 +11,14 @@ import { map } from 'rxjs';
     imports: [ExplorerComponent, ContentComponent, TreeComponent, AsyncPipe],
 })
 export class AppComponent {
-    private ex = inject(ExplorerService);
-    protected openedDir$ = this.ex.openedDir$.pipe(map((p) => p?.data['name']));
-    protected selectionLength$ = this.ex.selection$.pipe(map((s) => s.length));
-    protected rootLen$ = this.ex.root$.pipe(map((r) => r.children.length));
+    private explorerService = inject(ExplorerService);
+    protected openedDir$ = this.explorerService.openedDir$.pipe(map((p) => p?.data['name']));
+    protected selectionLength$ = this.explorerService.selection$.pipe(map((s) => s.length));
+    protected rootLen$ = this.explorerService.root$.pipe(map((r) => r.children.length));
 
     title = 'explorer-app';
+
+    constructor() {
+        this.explorerService.openTree({ id: 15, name: 'Aerosmith', path: '/Music/Rock/' });
+    }
 }
