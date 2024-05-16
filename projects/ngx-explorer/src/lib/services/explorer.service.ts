@@ -211,6 +211,7 @@ export class ExplorerService {
                 });
             }
 
+            this.root$$.next(this.internalTree);
             this.openedNode$$.next(lastParent);
             this.selectedNodes$$.next([]);
         });
