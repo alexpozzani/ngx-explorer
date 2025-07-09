@@ -16,8 +16,7 @@ interface Breadcrumb {
     styleUrls: ['./breadcrumbs.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [AsyncPipe],
+    imports: [AsyncPipe]
 })
 export class BreadcrumbsComponent {
     private explorerService = inject(ExplorerService);

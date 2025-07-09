@@ -10,8 +10,7 @@ import { AsyncPipe, JsonPipe, NgClass, NgTemplateOutlet } from '@angular/common'
     styleUrls: ['./tree.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgTemplateOutlet, NgClass, AsyncPipe, JsonPipe],
+    imports: [NgTemplateOutlet, NgClass, AsyncPipe, JsonPipe]
 })
 export class TreeComponent {
     private explorerService = inject(ExplorerService);

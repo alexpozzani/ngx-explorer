@@ -8,8 +8,7 @@ import { NgClass } from '@angular/common';
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    standalone: true,
-    imports: [DragDropDirective, NgClass],
+    imports: [DragDropDirective, NgClass]
 })
 export class ListComponent extends BaseView {
     public readonly icons = {

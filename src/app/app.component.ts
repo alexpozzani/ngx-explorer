@@ -7,8 +7,7 @@ import { map } from 'rxjs';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    standalone: true,
-    imports: [ExplorerComponent, ContentComponent, TreeComponent, AsyncPipe],
+    imports: [ExplorerComponent, ContentComponent, TreeComponent, AsyncPipe]
 })
 export class AppComponent {
     private explorerService = inject(ExplorerService);

@@ -11,8 +11,7 @@ import { AsyncPipe } from '@angular/common';
     templateUrl: './menu-bar.component.html',
     styleUrls: ['./menu-bar.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    standalone: true,
-    imports: [ViewSwitcherComponent, AsyncPipe],
+    imports: [ViewSwitcherComponent, AsyncPipe]
 })
 export class MenuBarComponent {
     @ViewChild('uploader', { static: true }) uploader!: ElementRef;

@@ -8,8 +8,7 @@ import { NgClass } from '@angular/common';
     templateUrl: './icons.component.html',
     styleUrls: ['./icons.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    standalone: true,
-    imports: [DragDropDirective, NgClass],
+    imports: [DragDropDirective, NgClass]
 })
 export class IconsComponent extends BaseView {
     public readonly icons = {
