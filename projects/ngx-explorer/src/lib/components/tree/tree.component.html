@@ -21,8 +21,9 @@
                             <div class="dir-icon"><mat-icon>folder</mat-icon></div>
                             <div class="dir-name" [innerText]="node.name"></div>
                         </div>
-
-                        <ng-container *ngTemplateOutlet="treeTmp; context: { nodes: node.children }"> </ng-container>
+                        @if (node.expanded) {
+                            <ng-container *ngTemplateOutlet="treeTmp; context: { nodes: node.children }"> </ng-container>
+                        }
                     </li>
                 }
             }
