@@ -12,13 +12,13 @@
                     <li>
                         <div class="item" (click)="open(node)" [ngClass]="{ selected: (selectedId$ | async) === node.id }">
                             @if (!node.expanded) {
-                                <div class="chevron" (click)="expand($event, node)"><i class="nxe-angle-right" aria-hidden="true"></i></div>
+                                <div class="chevron" (click)="expand($event, node)"><mat-icon>chevron_right</mat-icon></div>
                             } @else {
                                 <div class="chevron" (click)="collapse($event, node)">
-                                    <i class="nxe-angle-down" aria-hidden="true"></i>
+                                    <mat-icon>expand_more</mat-icon>
                                 </div>
                             }
-                            <div class="dir-icon"><i class="nxe-folder" aria-hidden="true"></i></div>
+                            <div class="dir-icon"><mat-icon>folder</mat-icon></div>
                             <div class="dir-name" [innerText]="node.name"></div>
                         </div>
 

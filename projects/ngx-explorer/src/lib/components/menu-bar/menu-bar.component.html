@@ -1,30 +1,36 @@
 <div class="nxe-menu-bar">
     <div class="nxe-menu-bar-left">
         @if (featCreateDir) {
-            <button class="nxe-menu-bar-button" (click)="createDir()"><i class="nxe-folder" aria-hidden="true"></i>New Folder</button>
+            <button mat-raised-button color="primary" (click)="createDir()">
+                <mat-icon>create_new_folder</mat-icon> New Folder
+            </button>
         }
 
-        <button class="nxe-menu-bar-button" (click)="refresh()"><i class="nxe-arrows-cw" aria-hidden="true"></i> Refresh</button>
+        <button mat-raised-button color="accent" (click)="refresh()">
+            <mat-icon>refresh</mat-icon> Refresh
+        </button>
 
         @if (featUpload) {
-            <button class="nxe-menu-bar-button" (click)="openUploader()"><i class="nxe-upload" aria-hidden="true"></i> Upload</button>
+            <button mat-raised-button color="primary" (click)="openUploader()">
+                <mat-icon>upload</mat-icon> Upload
+            </button>
         }
 
         @if (featDownload) {
-            <button class="nxe-menu-bar-button" [disabled]="!(canDownload$ | async)" (click)="download()">
-                <i class="nxe-download" aria-hidden="true"></i> Download
+            <button mat-raised-button color="primary" [disabled]="!(canDownload$ | async)" (click)="download()">
+                <mat-icon>download</mat-icon> Download
             </button>
         }
 
         @if (featRename) {
-            <button class="nxe-menu-bar-button" [disabled]="!(canRename$ | async)" (click)="rename()">
-                <i class="nxe-edit" aria-hidden="true"></i> Rename
+            <button mat-raised-button color="primary" [disabled]="!(canRename$ | async)" (click)="rename()">
+                <mat-icon>edit</mat-icon> Rename
             </button>
         }
 
         @if (featDelete) {
-            <button class="nxe-menu-bar-button" [disabled]="!(canDelete$ | async)" (click)="remove()">
-                <i class="nxe-trash-empty" aria-hidden="true"></i> Delete
+            <button mat-raised-button color="warn" [disabled]="!(canDelete$ | async)" (click)="remove()">
+                <mat-icon>delete</mat-icon> Delete
             </button>
         }
     </div>

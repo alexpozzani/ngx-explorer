@@ -3,6 +3,7 @@ import { ExplorerService } from '../../services/explorer.service';
 import { map } from 'rxjs/operators';
 import { INode } from '../../shared/types';
 import { AsyncPipe, JsonPipe, NgClass, NgTemplateOutlet } from '@angular/common';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'nxe-tree',
@@ -10,7 +11,8 @@ import { AsyncPipe, JsonPipe, NgClass, NgTemplateOutlet } from '@angular/common'
     styleUrls: ['./tree.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgTemplateOutlet, NgClass, AsyncPipe, JsonPipe]
+    standalone: true,
+    imports: [NgTemplateOutlet, NgClass, AsyncPipe, JsonPipe, MatIconModule]
 })
 export class TreeComponent {
     private explorerService = inject(ExplorerService);

@@ -3,34 +3,21 @@
     <div class="nxe-list-backpad" (click)="emptySpaceClick()"></div>
     <div class="nxe-list-container">
         <div class="nxe-list-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Size</th>
-                        <th>Last Modified</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (item of items; track $index) {
-                        <tr
-                            (dblclick)="open($event, item)"
-                            (click)="select($event, item)"
-                            [ngClass]="{ 'nxe-list-row-selected': isSelected(item) }"
-                        >
-                            <td>
-                                <span class="nxe-list-icon">
-                                    <i [className]="item.isLeaf ? icons.leaf : icons.node"></i>
-                                </span>
-                                {{ item.name }}
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    }
-                </tbody>
+            <table mat-table [dataSource]="items">
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Name</th>
+                    <td mat-cell *matCellDef="let item">
+                        <mat-icon>{{ item.isLeaf ? 'insert_drive_file' : 'folder' }}</mat-icon>
+                        {{ item.name }}
+                    </td>
+                </ng-container>
+                <!-- Add other columns as needed -->
+                <tr mat-header-row *matHeaderRowDef="['name']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['name'];"
+                    (dblclick)="open($event, row)"
+                    (click)="select($event, row)"
+                    [ngClass]="{ 'nxe-list-row-selected': isSelected(row) }"
+                ></tr>
             </table>
         </div>
     </div>

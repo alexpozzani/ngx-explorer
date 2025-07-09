@@ -1,10 +1,10 @@
 <div class="nxe-breadcrumbs">
     @for (crumb of breadcrumbs$ | async; track $index; let last = $last) {
         <span>
-            <button (click)="click(crumb)" class="nxe-breadcrumb-button">{{ crumb.name }}</button>
+            <button mat-button color="primary" (click)="click(crumb)">{{ crumb.name }}</button>
             @if (!last) {
                 <span class="nxe-breadcrumb-separator">
-                    <i class="nxe-angle-right" aria-hidden="true"></i>
+                    <mat-icon>chevron_right</mat-icon>
                 </span>
             }
         </span>

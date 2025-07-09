@@ -5,13 +5,16 @@ import { ExplorerService } from '../../services/explorer.service';
 import { ViewSwitcherComponent } from '../view-switcher/view-switcher.component';
 import { CONFIG } from '../../shared/providers';
 import { AsyncPipe } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'nxe-menu-bar',
     templateUrl: './menu-bar.component.html',
     styleUrls: ['./menu-bar.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    imports: [ViewSwitcherComponent, AsyncPipe]
+    standalone: true,
+    imports: [AsyncPipe, MatIconModule, ViewSwitcherComponent]
 })
 export class MenuBarComponent {
     @ViewChild('uploader', { static: true }) uploader!: ElementRef;

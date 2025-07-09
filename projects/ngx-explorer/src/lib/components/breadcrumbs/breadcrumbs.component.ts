@@ -4,6 +4,7 @@ import { INode } from '../../shared/types';
 import { ExplorerService } from '../../services/explorer.service';
 import { CONFIG } from '../../shared/providers';
 import { AsyncPipe } from '@angular/common';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 
 interface Breadcrumb {
     node: INode;
@@ -16,7 +17,8 @@ interface Breadcrumb {
     styleUrls: ['./breadcrumbs.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [AsyncPipe]
+    standalone: true,
+    imports: [AsyncPipe, MatIconModule]
 })
 export class BreadcrumbsComponent {
     private explorerService = inject(ExplorerService);

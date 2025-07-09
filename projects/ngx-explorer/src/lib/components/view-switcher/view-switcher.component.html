@@ -1,5 +1,7 @@
 <div class="nxe-view-switcher">
     @for (item of views; track $index) {
-        <button (click)="setView(item.name)"><i class="{{ item.icon }}"></i></button>
+        <button mat-icon-button (click)="setView(item.name)">
+            <mat-icon>{{ item.icon }}</mat-icon>
+        </button>
     }
 </div>

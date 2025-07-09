@@ -2,13 +2,16 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { BaseView } from '../base-view/base-view.directive';
 import { DragDropDirective } from '../../directives/drag-drop.directive';
 import { NgClass } from '@angular/common';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
     selector: 'nxe-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    imports: [DragDropDirective, NgClass]
+    standalone: true,
+    imports: [DragDropDirective, NgClass, MatIconModule, MatTableModule]
 })
 export class ListComponent extends BaseView {
     public readonly icons = {
