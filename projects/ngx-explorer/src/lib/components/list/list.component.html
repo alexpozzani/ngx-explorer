@@ -7,7 +7,7 @@
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>Name</th>
                     <td mat-cell *matCellDef="let item">
-                        <mat-icon>{{ item.isLeaf ? 'insert_drive_file' : 'folder' }}</mat-icon>
+                        <mat-icon>{{ getFileIcon(item) }}</mat-icon>
                         {{ item.name }}
                     </td>
                 </ng-container>

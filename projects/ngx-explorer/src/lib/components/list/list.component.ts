@@ -14,10 +14,6 @@ import { MatTableModule } from '@angular/material/table';
     imports: [DragDropDirective, NgClass, MatIconModule, MatTableModule]
 })
 export class ListComponent extends BaseView {
-    public readonly icons = {
-        node: 'nxe-folder',
-        leaf: 'nxe-doc',
-    };
 
     constructor() {
         super();

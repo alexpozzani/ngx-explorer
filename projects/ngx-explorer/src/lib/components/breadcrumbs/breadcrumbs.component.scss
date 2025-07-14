@@ -1,4 +1,8 @@
 .nxe-breadcrumbs {
+    display: flex;
+    align-items: center;
+    height: 48px;
+
     .nxe-breadcrumb-button {
         cursor: pointer;
         padding: 5px 5px;
@@ -12,5 +16,16 @@
         &:hover {
             background-color: #d7edff;
         }
+    }
+
+    > span {
+        display: flex;
+        align-items: center;
+    }
+
+    .nxe-breadcrumb-separator {
+        display: flex;
+        align-items: center;
+        margin: 0 4px;
     }
 }

@@ -6,6 +6,17 @@ import { ExplorerService } from '../../services/explorer.service';
 
 @Directive()
 export class BaseView implements OnDestroy {
+    public readonly icons = {
+        node: 'folder',
+        leaf: 'insert_drive_file',
+        movie: 'movie',
+        image: 'image',
+        pdf: 'picture_as_pdf',
+        archive: 'archive',
+        text: 'description',
+        music: 'music_note'
+    };
+
     protected selection = new Set<number>();
     protected items: INode[] = [];
     protected dragging = false;
@@ -83,6 +94,18 @@ export class BaseView implements OnDestroy {
 
     emptySpaceClick(): void {
         this.explorerService.select([]);
+    }
+
+    getFileIcon(item: any): string {
+        if (!item.isLeaf) return this.icons.node;
+        const ext = (item.name.split('.').pop() || '').toLowerCase();
+        if (['mp4','avi','mov','mkv','wmv'].includes(ext)) return this.icons.movie;
+        if (['jpg','jpeg','png','gif','bmp','svg','webp'].includes(ext)) return this.icons.image;
+        if (['pdf'].includes(ext)) return this.icons.pdf;
+        if (['zip','rar','7z','tar','gz'].includes(ext)) return this.icons.archive;
+        if (['txt','md','json','xml','csv','log'].includes(ext)) return this.icons.text;
+        if (['mp3', 'wav', 'flac', 'aac', 'ogg'].includes(ext)) return this.icons.music;
+        return this.icons.leaf;
     }
 
     ngOnDestroy() {

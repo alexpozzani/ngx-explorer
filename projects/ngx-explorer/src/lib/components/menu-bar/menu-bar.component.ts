@@ -6,7 +6,7 @@ import { ViewSwitcherComponent } from '../view-switcher/view-switcher.component'
 import { CONFIG } from '../../shared/providers';
 import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'nxe-menu-bar',
@@ -14,7 +14,7 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
     styleUrls: ['./menu-bar.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
-    imports: [AsyncPipe, MatIconModule, ViewSwitcherComponent]
+    imports: [AsyncPipe, MatIconModule, MatButtonModule, ViewSwitcherComponent]
 })
 export class MenuBarComponent {
     @ViewChild('uploader', { static: true }) uploader!: ElementRef;

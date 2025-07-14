@@ -9,6 +9,8 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    background: #fff;
+    color: #222;
 
     .nxe-list-drag {
         position: absolute;
@@ -47,6 +49,7 @@
                 width: 100%;
                 border-collapse: collapse;
                 border-spacing: 0;
+                background: #fff;
 
                 thead {
                     tr {
@@ -57,6 +60,7 @@
                             border-spacing: 0;
                             border-collapse: collapse;
                             font-weight: 400;
+                            color: #222;
 
                             &:last-child {
                                 border-right: none;
@@ -80,6 +84,7 @@
 
                         td {
                             padding: 8px 10px;
+                            color: #222;
 
                             .nxe-list-icon {
                                 margin-right: 5px;
