@@ -75,6 +75,7 @@ export interface View {
 export interface NgeExplorerConfig {
     homeNodeName: string;
     defaultView: string;
+    showRootNode?: boolean; // New config option
     multipleSelection?: boolean;
     features?: {
         delete?: boolean;

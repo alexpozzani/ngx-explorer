@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { INode } from '../../shared/types';
 import { AsyncPipe, JsonPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { CONFIG } from '../../shared/providers';
 
 @Component({
     selector: 'nxe-tree',
@@ -16,8 +17,10 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 })
 export class TreeComponent {
     private explorerService = inject(ExplorerService);
+    private config = inject(CONFIG);
     protected treeNodes: INode[] = [];
-    protected tree$ = this.explorerService.root$.pipe(map((r) => r.children));
+    protected showRootNode = this.config.showRootNode !== false;
+    protected tree$ = this.explorerService.root$.pipe(map((r) => this.showRootNode ? [r] : r.children));
     protected selectedId$ = this.explorerService.openedDir$.pipe(map((p) => p?.id));
 
     open(node: INode) {

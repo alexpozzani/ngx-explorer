@@ -24,6 +24,9 @@ let MOCK_DIRS = [
 ] as MyExplorerEntity[];
 
 let MOCK_FILES = [
+    { id: 1314, name: 'scanned.pdf', path: '/', content: 'This is a note' },
+    { id: 1214, name: 'music.mp3', path: '/', content: 'This is another file' },
+    { id: 1114, name: 'movie.mp4', path: '/', content: 'This is another file' },
     { id: 1312, name: 'notes.txt', path: '/', content: 'This is a note' },
     { id: 1212, name: '2.txt', path: '/', content: 'This is another file' },
     { id: 29, name: 'Back in the U.S.S.R.txt', path: '/Music/Rock/The Beatles/', content: 'This is a Beatles song' },

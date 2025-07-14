@@ -6,7 +6,7 @@
             <div class="nxe-icons-wrapper" (dblclick)="open($event, item)" (click)="select($event, item)">
                 <div class="nxe-icons-wrapper-inner" [ngClass]="{ 'nxe-icon-selected': isSelected(item) }" [title]="item.name">
                     <div class="nxe-icons-icon">
-                        <mat-icon>{{ item.isLeaf ? 'insert_drive_file' : 'folder' }}</mat-icon>
+                        <mat-icon>{{ getFileIcon(item) }}</mat-icon>
                     </div>
                     <div class="nxe-icon-text">{{ item.name }}</div>
                 </div>

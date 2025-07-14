@@ -4,6 +4,7 @@ import { IconsComponent, ListComponent } from '../../public-api';
 
 export const DEFAULT_CONFIG: Partial<NgeExplorerConfig> = {
     homeNodeName: 'Files',
+    showRootNode: true, // Default to show root node
     multipleSelection: true,
     features: {
         delete: true,
@@ -19,12 +20,12 @@ export const VIEWS = new InjectionToken<View[]>('NXE_VIEWS', {
     factory: () => [
         {
             name: 'Icons',
-            icon: 'nxe-th-large',
+            icon: 'apps', // Material icon for grid view
             component: IconsComponent,
         },
         {
             name: 'List',
-            icon: 'nxe-menu',
+            icon: 'list', // Material icon for list view
             component: ListComponent,
         },
     ],
