@@ -7,8 +7,10 @@
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>Name</th>
                     <td mat-cell *matCellDef="let item">
-                        <mat-icon>{{ getFileIcon(item) }}</mat-icon>
-                        {{ item.name }}
+                        <div class="nxe-list-item-content">
+                            <mat-icon class="nxe-list-icon">{{ getFileIcon(item) }}</mat-icon>
+                            {{ item.name }}
+                        </div>
                     </td>
                 </ng-container>
                 <!-- Add other columns as needed -->

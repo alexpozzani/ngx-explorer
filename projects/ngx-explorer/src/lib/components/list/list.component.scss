@@ -86,12 +86,21 @@
                             padding: 8px 10px;
                             color: #222;
 
-                            .nxe-list-icon {
-                                margin-right: 5px;
-                                color: #555;
+                            .nxe-list-item-content {
+                                display: flex;
+                                align-items: center;
+                                // height: 48px;
 
-                                & .nxe-folder {
-                                    color: $folder-bg;
+                                .nxe-list-icon {
+                                    margin-right: 8px;
+                                    color: #555;
+                                    display: inline-flex;
+                                    align-items: center;
+                                    height: 100%;
+
+                                    & .nxe-folder {
+                                        color: $folder-bg;
+                                    }
                                 }
                             }
                         }
