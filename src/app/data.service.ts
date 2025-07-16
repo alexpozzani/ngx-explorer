@@ -64,6 +64,8 @@ export class ExampleDataService implements IDataService<MyExplorerEntity> {
     uploadFiles(parent: MyExplorerEntity, files: FileList): Observable<any> {
         const results = [];
 
+        console.log('Uploading files:', files);
+
         for (let i = 0; i < files.length; i++) {
             const file = files.item(i)!;
             const obs = new Observable((observer: Subscriber<any>): void => {
@@ -87,6 +89,9 @@ export class ExampleDataService implements IDataService<MyExplorerEntity> {
     }
 
     delete(datas: MyExplorerEntity[]): Observable<any> {
+
+        console.log('Deleting files:', datas);
+
         const results = datas.map((data) => {
             const path = data.path + '/';
             MOCK_FILES = MOCK_FILES.filter((f) => !f.path.startsWith(path));
@@ -98,9 +103,9 @@ export class ExampleDataService implements IDataService<MyExplorerEntity> {
     }
 
     createDir(parent: MyExplorerEntity, name: string): Observable<any> {
-        const path = (parent.path ? parent.path + '/' : '') + name.replace(/[\W_]+/g, ' ');
+        const parentFullPath = (parent?.path ?? '/') + (parent.name ? parent.name + '/' : '');
         const id = ++this.folderId;
-        const newFolder = { path, id, name, content: '' };
+        const newFolder = { path: parentFullPath, id, name, content: '' };
         MOCK_DIRS.push(newFolder);
         return of(newFolder);
     }

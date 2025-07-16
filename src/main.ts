@@ -18,12 +18,13 @@ bootstrapApplication(AppComponent, {
                 homeNodeName: 'Home',
                 defaultView: 'Icons',
                 multipleSelection: false,
+                showRootNode: false, // Show root node by default
                 features: {
-                    delete: false,
-                    upload: false,
-                    download: false,
-                    rename: false,
-                    createDir: false,
+                    delete: true,
+                    upload: true,
+                    download: true,
+                    rename: true,
+                    createDir: true,
                 },
             } as NgeExplorerConfig,
         },
