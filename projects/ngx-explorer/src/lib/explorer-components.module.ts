@@ -12,24 +12,28 @@ import { TreeComponent } from './components/tree/tree.component';
 // ...import other components as needed
 
 @NgModule({
-  declarations: [
-    MenuBarComponent,
-    BreadcrumbsComponent,
-    IconsComponent,
-    ListComponent,
-    ContentComponent,
-    ExplorerComponent,
-    TreeComponent
-  ],
-  imports: [CommonModule, ExplorerMaterialModule, ViewSwitcherComponent],
-  exports: [
-    MenuBarComponent,
-    BreadcrumbsComponent,
-    IconsComponent,
-    ListComponent,
-    ContentComponent,
-    ExplorerComponent,
-    TreeComponent
-  ]
+    declarations: [
+
+    ],
+    imports: [
+        CommonModule,
+        ExplorerMaterialModule,
+        ViewSwitcherComponent,
+        MenuBarComponent,
+        BreadcrumbsComponent,
+        IconsComponent,
+        ListComponent,
+        ContentComponent,
+        ExplorerComponent,
+        TreeComponent],
+    exports: [
+        MenuBarComponent,
+        BreadcrumbsComponent,
+        IconsComponent,
+        ListComponent,
+        ContentComponent,
+        ExplorerComponent,
+        TreeComponent
+    ]
 })
-export class ExplorerComponentsModule {}
+export class ExplorerComponentsModule { }

@@ -1,8 +1,18 @@
 <div class="nxe-explorer">
-    <div class="nxe-explorer-left">
+    <div class="nxe-explorer-left" [class.nxe-explorer-left-hidden]="isTreeHidden">
         <nxe-tree></nxe-tree>
     </div>
     <div class="nxe-explorer-right">
-        <nxe-content></nxe-content>
+        <div class="nxe-content">
+            <div class="nxe-content-top">
+                <nxe-menu-bar (treeToggle)="toggleTree()"></nxe-menu-bar>
+            </div>
+            <div class="nxe-content-top">
+                <nxe-breadcrumbs></nxe-breadcrumbs>
+            </div>
+            <div class="nxe-content-middle">
+                <ng-container *ngComponentOutlet="viewComponent$ | async"></ng-container>
+            </div>
+        </div>
     </div>
 </div>

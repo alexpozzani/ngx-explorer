@@ -1,5 +1,12 @@
 <div class="nxe-menu-bar">
     <div class="nxe-menu-bar-left">
+
+        @if (isSmallScreen) {
+            <button mat-icon-button class="nxe-tree-toggle" (click)="toggleTree()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        }
+
         @if (featCreateDir) {
             <button mat-stroked-button color="primary" (click)="createDir()">
                 <mat-icon>create_new_folder</mat-icon> New Folder

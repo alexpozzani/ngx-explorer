@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewEncapsulation, inject, Output, EventEmitter, HostListener } from '@angular/core';
 import { map, take } from 'rxjs';
 import { NgeExplorerConfig } from '../../shared/types';
 import { ExplorerService } from '../../services/explorer.service';
@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class MenuBarComponent {
     @ViewChild('uploader', { static: true }) uploader!: ElementRef;
+    @Output() treeToggle = new EventEmitter<void>();
 
     protected explorerService: ExplorerService = inject(ExplorerService);
     protected config: NgeExplorerConfig = inject(CONFIG);
@@ -31,6 +32,14 @@ export class MenuBarComponent {
     protected canDownload$ = this.explorerService.selection$.pipe(map((n) => n.length === 1 && n[0].isLeaf));
     protected canDelete$ = this.explorerService.selection$.pipe(map((n) => n.length > 0));
     protected canRename$ = this.explorerService.selection$.pipe(map((n) => n.length === 1));
+
+    isSmallScreen = window.innerWidth <= 768;
+
+    @HostListener('window:resize')
+    onResize() {
+        console.log('Window resized');
+        this.isSmallScreen = window.innerWidth <= 768;
+    }
 
     createDir() {
         const name = prompt('Enter new name');
@@ -79,5 +88,9 @@ export class MenuBarComponent {
 
     download() {
         this.explorerService.download();
+    }
+
+    toggleTree() {
+        this.treeToggle.emit();
     }
 }

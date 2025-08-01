@@ -12,3 +12,30 @@
         flex-grow: 1;
     }
 }
+
+.nxe-explorer-left-hidden {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .nxe-explorer-left {
+        display: none;
+    }
+    .nxe-explorer-left.nxe-explorer-left-hidden {
+        display: none !important;
+    }
+    .nxe-explorer-left:not(.nxe-explorer-left-hidden) {
+        display: block;
+        position: absolute;
+        z-index: 1000;
+        background: #fff;
+        width: 80vw;
+        max-width: 320px;
+        min-width: 200px;
+        height: 100%;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+    }
+    .nxe-explorer-right {
+        width: 100%;
+    }
+}

@@ -1,13 +1,13 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ContentComponent, ExplorerComponent, ExplorerService, TreeComponent } from 'ngx-explorer';
+import { ExplorerComponent, ExplorerService /*, ContentComponent, TreeComponent*/ } from 'ngx-explorer';
 import { map } from 'rxjs';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    imports: [ExplorerComponent, ContentComponent, TreeComponent, AsyncPipe]
+    imports: [ExplorerComponent, /*ContentComponent, TreeComponent,*/ AsyncPipe]
 })
 export class AppComponent {
     private explorerService = inject(ExplorerService);
